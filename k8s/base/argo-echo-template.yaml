@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  namespace: argo
+  name: argo-echo
+spec:
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: message
+        value: hello world
+  templates:
+    - name: main
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: busybox
+        command: [echo]
+        args:
+          - "{{inputs.parameters.message}}"
+
+

@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  namespace: argo
+  name: fanout
+spec:
+  entrypoint: main
+  templates:
+
+    - name: main
+      dag:
+        tasks:
+          - name: create-list-of-names
+            template: create-list
+
+          - name: echo-name
+            template: hello-name
+            dependencies:
+              - create-list-of-names
+            arguments:
+              parameters:
+                - name: name
+                  value: "{{ item }}"
+            withParam: "{{ tasks.create-list-of-names.outputs.parameters.name-list }}"
+
+    - name: create-list
+      script:
+        image: busybox:latest
+        command: [ sh  ]
+        source: |
+          echo '["foo", "bar", "baz"]' >> /tmp/names.txt
+      outputs:
+        parameters:
+          - name: name-list
+            valueFrom:
+              path: /tmp/names.txt
+
+    - name: hello-name
+      inputs:
+        parameters:
+          - name: name
+      container:
+        image: busybox:latest
+        command: [ echo ]
+        args:
+          - "{{inputs.parameters.name}}"
