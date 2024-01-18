@@ -25,18 +25,14 @@ FOR DEMO / PLAYGROUND ONLY!!!
 # make sure you are on the right cluster
 $ kubectx minikube 
 
-# create argo namespace to host argo workflows
-$ kubectl create namespace argo
-$ kubens argo 
-
 # deploy argo
-$ kustomize build k8s/tools | kubectl apply -n argo -f -  
+$ kubectl apply -k k8s/base/tools
 
 # PLAYGROUND ONLY! role bindings for argo
 $ kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=argo:default -n argo
 
 # deploy everything else in project
-$ kustomize build k8s | kubectl apply -n argo -f -  
+$ kustomize apply -k k8s  
 ```
 
 ## Launch a workflow

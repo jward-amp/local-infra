@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argo
+metadata:
+  name: tool-argo-kustomization
+
+resources:
+  - namespace.yaml
+  - install.yaml
+
+patches:
+- path: argo-server-auth-path.json
+  target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: argo-server
