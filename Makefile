@@ -2,6 +2,7 @@
 
 init-env:
 	minikube start --cpus=2 --disk-size='20gb'
+	kubectx minikube
 	kubectl apply -k k8s/base/tools
 	kubectl apply -k k8s
 
