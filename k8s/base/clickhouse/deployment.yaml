@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clickhouse
+spec:
+  selector:
+    matchLabels:
+      app: clickhouse
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+    spec:
+      containers:
+        - image: clickhouse/clickhouse-server:latest
+          name: clickhouse
+          env:
+            - name: CLICKHOUSE_DB
+              value: amperon
+            - name: CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT
+              value: "1"
+          ports:
+            - containerPort: 9000
+              name: clickhouse
+          volumeMounts:
+            - name: clickhouse-persistent-storage
+              mountPath: /var/lib/clickhouse
+      volumes:
+        - name: clickhouse-persistent-storage
+          persistentVolumeClaim:
+            claimName: clickhouse-pv-claim
