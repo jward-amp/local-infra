@@ -21,13 +21,17 @@ spec:
               value: amperon
             - name: CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT
               value: "1"
+            # - name: CLICKHOUSE_USER
+            #   value: default
+            # - name: CLICKHOUSE_PASSWORD
+            #   value: default
           ports:
             - containerPort: 9000
               name: clickhouse
           volumeMounts:
-            - name: clickhouse-persistent-storage
+            - name: clickhouse-ephemeral-storage
               mountPath: /var/lib/clickhouse
       volumes:
-        - name: clickhouse-persistent-storage
-          persistentVolumeClaim:
-            claimName: clickhouse-pv-claim
+        - name: clickhouse-ephemeral-storage
+          emptyDir:
+            sizeLimit: 1Gi
