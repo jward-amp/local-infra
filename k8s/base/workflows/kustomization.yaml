@@ -6,4 +6,5 @@ metadata:
 resources:
   - argo-echo-template.yaml
   - fanout-template.yaml
+  - role-binding.yaml
   - workflow-of-workflows.yaml

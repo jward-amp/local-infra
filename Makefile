@@ -29,6 +29,3 @@ db-mysql-up: build-migrations
 		-source 'file://migrations/mysql' \
 		-database 'mysql://root:root@tcp(mysql:3306)/amperon' \
 		up
-
-minikube-docker:
-	minikube -p minikube docker-env > "$@"

@@ -6,7 +6,7 @@ A local playground for infrastructure: kubernetes, argo workflows, kustomize, sk
 ## Install dependencies and useful utilities for working with Kubernetes
 
 ```shell
-$ brew install minikube kubectl kubectx kustomize k9s
+$ brew install argo minikube kubectl kubectx kustomize k9s
 ```
 
 
@@ -25,11 +25,8 @@ FOR DEMO / PLAYGROUND ONLY!!!
 # make sure you are on the right cluster
 $ kubectx minikube 
 
-# deploy argo
+# deploy tools
 $ kubectl apply -k k8s/base/tools
-
-# PLAYGROUND ONLY! role bindings for argo
-$ kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=argo:default -n argo
 
 # deploy everything else in project
 $ kustomize apply -k k8s  
